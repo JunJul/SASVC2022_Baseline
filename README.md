@@ -17,6 +17,12 @@ git submodule update
 ```
 pip install -r requirements.txt
 ```
+
+### Update submodule
+```
+git submodule update --init --recursive
+```
+
 ### Data preparation
 The ASVspoof2019 LA dataset [1] can be downloaded using the scipt in AASIST [2] repository
 ```
