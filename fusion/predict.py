@@ -1,5 +1,5 @@
 import sys
-import joblib
+import pickle
 import numpy as np
 from pathlib import Path
 
@@ -21,12 +21,14 @@ def load_model(name):
     Returns:
         loaded model object, or None if not found
     """
-    path = SAVE_DIR / f"{name}.pkl"
+    path = SAVE_DIR / f"{name}.pk"
     if not path.exists():
         print(f"[!] Model not found: {path}")
         print(f"    Run train.py first.")
         return None
-    return joblib.load(path)
+
+    with open(path, "rb") as f:
+        return pickle.load(f)
 
 
 # ── predict a single trial ────────────────────────────────────────────────────
@@ -122,44 +124,92 @@ def predict_all_models(asv_embedding, cm_embedding):
     return results
 
 
+# ── load real embeddings from .pk files and run inference ────────────────────
+def predict_from_pk(split="dev", model_name="logistic", trial_id=None):
+    """
+    Run fusion inference using REAL embeddings stored in embeddings/*.pk
+
+    Args:
+        split      : "dev" or "eval"
+        model_name : "logistic", "mlp", or "catboost"
+        trial_id   : optional specific trial id; if None, use the first matched one
+
+    Returns:
+        result : dict with trial_id and prediction result
+    """
+    base_dir = Path(__file__).parent.parent / "embeddings"
+
+    asv_path = base_dir / f"asv_embd_{split}.pk"
+    cm_path  = base_dir / f"cm_embd_{split}.pk"
+
+    if not asv_path.exists():
+        raise FileNotFoundError(f"ASV embedding file not found: {asv_path}")
+    if not cm_path.exists():
+        raise FileNotFoundError(f"CM embedding file not found: {cm_path}")
+
+    with open(asv_path, "rb") as f:
+        asv_dict = pickle.load(f)
+
+    with open(cm_path, "rb") as f:
+        cm_dict = pickle.load(f)
+
+    valid_ids = sorted(set(asv_dict.keys()) & set(cm_dict.keys()))
+    if not valid_ids:
+        raise ValueError(f"No matched trial_ids found between {asv_path.name} and {cm_path.name}")
+
+    if trial_id is None:
+        trial_id = valid_ids[0]
+    elif trial_id not in asv_dict or trial_id not in cm_dict:
+        raise ValueError(f"trial_id '{trial_id}' not found in both embedding files")
+
+    asv_emb = np.asarray(asv_dict[trial_id], dtype=np.float32).reshape(-1)
+    cm_emb  = np.asarray(cm_dict[trial_id], dtype=np.float32).reshape(-1)
+
+    print(f"Using split   : {split}")
+    print(f"Using trial_id: {trial_id}")
+    print(f"ASV shape     : {asv_emb.shape}")
+    print(f"CM shape      : {cm_emb.shape}")
+
+    pred = predict_trial(
+        asv_embedding=asv_emb,
+        cm_embedding=cm_emb,
+        model_name=model_name
+    )
+
+    return {
+        "trial_id": trial_id,
+        "result": pred
+    }
+
+
+
+
 # ── entry point ───────────────────────────────────────────────────────────────
 # When run directly, demonstrate with a simulated trial
 if __name__ == "__main__":
-
     print("=" * 60)
-    print("FUSION PREDICTION DEMO")
+    print("FUSION PREDICTION DEMO (REAL EMBEDDINGS)")
     print("=" * 60)
-    print("(Using simulated embeddings — swap in real ones from teammates)")
 
-    # ── Simulate a GENUINE trial (high ASV score, high CM score) ─────────────
-    print("\n--- Trial 1: Simulated GENUINE (real Alice) ---")
-    fake_asv_genuine = np.random.randn(192).astype(np.float32) * 0.3 + 1.0
-    fake_cm_genuine  = np.random.randn(160).astype(np.float32) * 0.3 + 1.0
-    predict_all_models(fake_asv_genuine, fake_cm_genuine)
+    # Example 1: use the first matched trial in dev split
+    out = predict_from_pk(split="dev", model_name="logistic")
+    print("\nSingle-model result:")
+    print(out)
 
-    # ── Simulate a SPOOF trial (low ASV score, low CM score) ─────────────────
-    print("\n--- Trial 2: Simulated SPOOF (AI-generated audio) ---")
-    fake_asv_spoof = np.random.randn(192).astype(np.float32) * 0.3 - 1.0
-    fake_cm_spoof  = np.random.randn(160).astype(np.float32) * 0.3 - 1.0
-    predict_all_models(fake_asv_spoof, fake_cm_spoof)
-
-    # ── Simulate an IMPOSTOR trial (low ASV, high CM — real but wrong person) ─
-    print("\n--- Trial 3: Simulated IMPOSTOR (real human, wrong person) ---")
-    fake_asv_impostor = np.random.randn(192).astype(np.float32) * 0.3 - 1.0
-    fake_cm_impostor  = np.random.randn(160).astype(np.float32) * 0.3 + 1.0
-    predict_all_models(fake_asv_impostor, fake_cm_impostor)
-
+    # Example 2: compare all 3 models on the same real trial
     print("\n" + "=" * 60)
-    print("To use with real embeddings from teammates:")
-    print("""
-    from fusion.predict import predict_trial
+    print("COMPARE ALL MODELS ON THE SAME REAL TRIAL")
+    print("=" * 60)
 
-    result = predict_trial(
-        asv_embedding = asv_emb,   # numpy (192,) from ECAPA-TDNN
-        cm_embedding  = cm_emb,    # numpy (160,) from AASIST
-        model_name    = "catboost" # or "logistic" or "mlp"
-    )
-    print(result)
-    # {'decision': 'ACCEPT', 'score': 0.87, 'confidence': 'High confidence', ...}
-    """)
-    
+    base_dir = Path(__file__).parent.parent / "embeddings"
+    with open(base_dir / "asv_embd_dev.pk", "rb") as f:
+        asv_dict = pickle.load(f)
+    with open(base_dir / "cm_embd_dev.pk", "rb") as f:
+        cm_dict = pickle.load(f)
+
+    trial_id = sorted(set(asv_dict.keys()) & set(cm_dict.keys()))[0]
+    asv_emb = np.asarray(asv_dict[trial_id], dtype=np.float32).reshape(-1)
+    cm_emb  = np.asarray(cm_dict[trial_id], dtype=np.float32).reshape(-1)
+
+    print(f"trial_id: {trial_id}")
+    predict_all_models(asv_emb, cm_emb)

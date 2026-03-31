@@ -1,5 +1,5 @@
 import sys
-import joblib
+import pickle
 import numpy as np
 from pathlib import Path
 
@@ -13,6 +13,8 @@ SAVE_DIR = Path(__file__).parent / "saved_models"
 
 
 # ── EER computation ───────────────────────────────────────────────────────────
+
+
 def compute_eer(y_true, scores):
     """
     Compute Equal Error Rate (EER).
@@ -28,36 +30,29 @@ def compute_eer(y_true, scores):
         eer       : EER value as a percentage (lower is better)
         threshold : the threshold value where EER occurs
     """
-    # Try 1000 evenly spaced thresholds between min and max score
     thresholds = np.linspace(scores.min(), scores.max(), 1000)
 
-    best_eer       = 1.0   # start with worst possible EER (100%)
+    best_diff = float("inf")
+    best_eer = 1.0
     best_threshold = 0.5
 
     for threshold in thresholds:
-        # Predictions at this threshold
         predictions = (scores >= threshold).astype(int)
 
-        # False Accept: spoof/impostor that we wrongly accepted
-        # These are the samples where y_true=0 but we predicted 1
-        spoof_mask       = (y_true == 0)
-        false_accept_rate = (predictions[spoof_mask] == 1).mean()
+        spoof_mask = (y_true == 0)
+        genuine_mask = (y_true == 1)
 
-        # False Reject: genuine that we wrongly rejected
-        # These are the samples where y_true=1 but we predicted 0
-        genuine_mask      = (y_true == 1)
+        false_accept_rate = (predictions[spoof_mask] == 1).mean()
         false_reject_rate = (predictions[genuine_mask] == 0).mean()
 
-        # EER is where FAR and FRR are closest to each other
-        # We measure this as the absolute difference between them
         diff = abs(false_accept_rate - false_reject_rate)
 
-        if diff < abs(best_eer - 0.5):
-            best_eer       = (false_accept_rate + false_reject_rate) / 2
+        if diff < best_diff:
+            best_diff = diff
+            best_eer = (false_accept_rate + false_reject_rate) / 2
             best_threshold = threshold
 
-    return best_eer * 100, best_threshold  # return as percentage
-
+    return best_eer * 100, best_threshold
 
 # ── load a saved model from disk ──────────────────────────────────────────────
 def load_model(name):
@@ -70,12 +65,15 @@ def load_model(name):
     Returns:
         loaded model object
     """
-    path = SAVE_DIR / f"{name}.pkl"
+    path = SAVE_DIR / f"{name}.pk"
     if not path.exists():
         print(f"  [!] Model file not found: {path}")
         print(f"      Run train.py first to generate it.")
         return None
-    model = joblib.load(path)
+
+    with open(path, "rb") as f:
+        model = pickle.load(f)
+
     print(f"  Loaded {name} from {path}")
     return model
 
