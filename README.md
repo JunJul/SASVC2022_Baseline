@@ -76,6 +76,8 @@ Fine-tune a pretrained CAM++ model on VoxCeleb2. Pretrained weights are auto-dow
 python train_campplus_sv.py
 ```
 
+The pretrained model can be found here: https://drive.google.com/drive/folders/1nR890TC052Io-5hEiJtGJPgGnDQD4tSx?usp=drive_link
+
 Key arguments:
 
 | Argument | Default | Description |
