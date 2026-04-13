@@ -9,4 +9,6 @@ exp_result
 *.zip
 *.model
 *.m4a
-
+*.npy
+*.pk
+*.model
