@@ -11,7 +11,7 @@ from tqdm import tqdm
 
 from aasist.data_utils import Dataset_ASVspoof2019_devNeval
 from aasist.models.AASIST import Model as AASISTModel
-from ECAPATDNN.model import ECAPA_TDNN
+from campplus.extractor import CAMPPlusExtractor
 from utils import load_parameters
 
 # list of dataset partitions
@@ -151,7 +151,8 @@ def get_args():
         "-aasist_weight", type=str, default="./aasist/models/weights/AASIST.pth"
     )
     parser.add_argument(
-        "-ecapa_weight", type=str, default="./ECAPATDNN/exps/pretrain.model"
+        "-campplus_weight", type=str, default=None,
+        help="Path to pretrained CAM++ weights. If not provided, downloads from ModelScope."
     )
 
     return parser.parse_args()
@@ -172,8 +173,10 @@ def main():
     cm_embd_ext.to(device)
     cm_embd_ext.eval()
 
-    asv_embd_ext = ECAPA_TDNN(C=1024)
-    load_parameters(asv_embd_ext.state_dict(), args.ecapa_weight)
+    campplus_weight = args.campplus_weight
+    if campplus_weight is None:
+        campplus_weight = CAMPPlusExtractor.download_pretrained()
+    asv_embd_ext = CAMPPlusExtractor(pretrained_path=campplus_weight)
     asv_embd_ext.to(device)
     asv_embd_ext.eval()
 

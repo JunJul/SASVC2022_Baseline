@@ -1,6 +1,7 @@
 omegaconf==2.0.6
 pytorch_lightning
 torch
+torchaudio
 torchvision
 torchcontrib
 numpy
@@ -8,3 +9,4 @@ scipy
 scikit-learn
 pathlib
 soundfile
+modelscope

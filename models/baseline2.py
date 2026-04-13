@@ -10,8 +10,8 @@ class Model(torch.nn.Module):
 
     def forward(self, embd_asv_enr, embd_asv_tst, embd_cm):    
 
-        asv_enr = torch.squeeze(embd_asv_enr, 1) # shape: (bs, 192)
-        asv_tst = torch.squeeze(embd_asv_tst, 1) # shape: (bs, 192)
+        asv_enr = torch.squeeze(embd_asv_enr, 1) # shape: (bs, 512)
+        asv_tst = torch.squeeze(embd_asv_tst, 1) # shape: (bs, 512)
         cm_tst = torch.squeeze(embd_cm, 1) # shape: (bs, 160)
 
         x = self.enh_DNN(torch.cat([asv_enr, asv_tst, cm_tst], dim = 1)) # shape: (bs, 32)
