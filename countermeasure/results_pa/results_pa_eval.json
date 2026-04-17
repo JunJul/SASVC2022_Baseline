@@ -1,0 +1,99 @@
+{
+  "task": "PA",
+  "split": "eval",
+  "checkpoint": "checkpoints_pa/best_model.pt",
+  "timestamp": "20260415_075133",
+  "num_samples": 67987,
+  "num_bonafide": 10746,
+  "num_spoof": 57241,
+  "eer": 0.1873132894247017,
+  "eer_pct": 18.73132894247017,
+  "min_tdcf": 0.2112251896438219,
+  "threshold": 0.28753679990838454,
+  "accuracy_at_threshold": 81.26847779722594,
+  "mean_score_bonafide": 0.6344623565673828,
+  "mean_score_spoof": 0.14559610188007355,
+  "per_attack": {
+    "AA": {
+      "eer": 0.3693467336684508,
+      "eer_pct": 36.934673366845075,
+      "threshold": 0.6383990609465661,
+      "num_samples": 9259,
+      "mean_score": 0.4105667769908905,
+      "std_score": 0.35513433814048767,
+      "description": "replay (small room, close+HQ)"
+    },
+    "AB": {
+      "eer": 0.17285894206496422,
+      "eer_pct": 17.285894206496422,
+      "threshold": 0.25698387622860974,
+      "num_samples": 6352,
+      "mean_score": 0.12650460004806519,
+      "std_score": 0.2340725064277649,
+      "description": "replay (small room, mid)"
+    },
+    "AC": {
+      "eer": 0.04634282523729778,
+      "eer_pct": 4.6342825237297784,
+      "threshold": 0.036952527240958676,
+      "num_samples": 8771,
+      "mean_score": 0.01050209067761898,
+      "std_score": 0.05904170125722885,
+      "description": "replay (small room, far+LQ)"
+    },
+    "BA": {
+      "eer": 0.2861377108994505,
+      "eer_pct": 28.61377108994505,
+      "threshold": 0.5078195333480642,
+      "num_samples": 4386,
+      "mean_score": 0.28881675004959106,
+      "std_score": 0.3203074038028717,
+      "description": "replay (medium room, close+HQ)"
+    },
+    "BB": {
+      "eer": 0.12569367369617573,
+      "eer_pct": 12.569367369617574,
+      "threshold": 0.1571420580147644,
+      "num_samples": 3604,
+      "mean_score": 0.07182906568050385,
+      "std_score": 0.17175288498401642,
+      "description": "replay (medium room, mid)"
+    },
+    "BC": {
+      "eer": 0.052205471803414914,
+      "eer_pct": 5.220547180341492,
+      "threshold": 0.0442248444873241,
+      "num_samples": 4189,
+      "mean_score": 0.012340369634330273,
+      "std_score": 0.061877887696027756,
+      "description": "replay (medium room, far+LQ)"
+    },
+    "CA": {
+      "eer": 0.2422296668527806,
+      "eer_pct": 24.22296668527806,
+      "threshold": 0.4202260402035255,
+      "num_samples": 7215,
+      "mean_score": 0.22880859673023224,
+      "std_score": 0.2844952940940857,
+      "description": "replay (large room, close+HQ)"
+    },
+    "CB": {
+      "eer": 0.109681468695986,
+      "eer_pct": 10.9681468695986,
+      "threshold": 0.1287879347802334,
+      "num_samples": 6373,
+      "mean_score": 0.052979666739702225,
+      "std_score": 0.14072337746620178,
+      "description": "replay (large room, mid)"
+    },
+    "CC": {
+      "eer": 0.04866927228736278,
+      "eer_pct": 4.8669272287362775,
+      "threshold": 0.03962219031012836,
+      "num_samples": 7092,
+      "mean_score": 0.01003226637840271,
+      "std_score": 0.05538817122578621,
+      "description": "replay (large room, far+LQ)"
+    }
+  }
+}
