@@ -1,0 +1,135 @@
+{
+  "split": "eval",
+  "checkpoint": "checkpoints/best_model.pt",
+  "timestamp": "20260413_014202",
+  "num_samples": 71237,
+  "num_bonafide": 7355,
+  "num_spoof": 63882,
+  "eer": 0.11453930684787332,
+  "eer_pct": 11.453930684787332,
+  "min_tdcf": 0.13530723231188638,
+  "threshold": 0.3312042653356126,
+  "accuracy_at_threshold": 0.8854668220166486,
+  "mean_score_bonafide": 0.870700478553772,
+  "mean_score_spoof": 0.11019664257764816,
+  "score_separation": 0.7605038285255432,
+  "per_attack": {
+    "A07": {
+      "eer": 0.01587301587287166,
+      "eer_pct": 1.587301587287166,
+      "threshold": 0.00017642707098472588,
+      "num_samples": 4914,
+      "mean_score": 0.0010437103919684887,
+      "std_score": 0.028606534004211426,
+      "description": "TTS (vocoder-based)"
+    },
+    "A08": {
+      "eer": 0.07409925220966818,
+      "eer_pct": 7.409925220966818,
+      "threshold": 0.03316135635866515,
+      "num_samples": 4914,
+      "mean_score": 0.050045643001794815,
+      "std_score": 0.20482566952705383,
+      "description": "TTS (neural)"
+    },
+    "A09": {
+      "eer": 0.10360299116247451,
+      "eer_pct": 10.36029911624745,
+      "threshold": 0.19086492663942006,
+      "num_samples": 4914,
+      "mean_score": 0.09157191216945648,
+      "std_score": 0.2698996365070343,
+      "description": "TTS (vocoder)"
+    },
+    "A10": {
+      "eer": 0.10088375254977845,
+      "eer_pct": 10.088375254977846,
+      "threshold": 0.16864711019412706,
+      "num_samples": 4914,
+      "mean_score": 0.0897064134478569,
+      "std_score": 0.2712089419364929,
+      "description": "TTS (neural)"
+    },
+    "A11": {
+      "eer": 0.0233854520734196,
+      "eer_pct": 2.33854520734196,
+      "threshold": 0.00044474457177125194,
+      "num_samples": 4914,
+      "mean_score": 0.005072067957371473,
+      "std_score": 0.06446011364459991,
+      "description": "TTS (griffin-lim)"
+    },
+    "A12": {
+      "eer": 0.2069340584632196,
+      "eer_pct": 20.693405846321962,
+      "threshold": 0.974796332249893,
+      "num_samples": 4914,
+      "mean_score": 0.26211220026016235,
+      "std_score": 0.42209699749946594,
+      "description": "TTS (neural)"
+    },
+    "A13": {
+      "eer": 0.01912901912914423,
+      "eer_pct": 1.9129019129144231,
+      "threshold": 0.00027298566419349415,
+      "num_samples": 4914,
+      "mean_score": 0.0026421649381518364,
+      "std_score": 0.04811510071158409,
+      "description": "TTS/VC (hybrid)"
+    },
+    "A14": {
+      "eer": 0.035350101971447806,
+      "eer_pct": 3.5350101971447807,
+      "threshold": 0.001485893131584514,
+      "num_samples": 4914,
+      "mean_score": 0.011735090054571629,
+      "std_score": 0.10059085488319397,
+      "description": "TTS (neural)"
+    },
+    "A15": {
+      "eer": 0.3441188441186051,
+      "eer_pct": 34.41188441186051,
+      "threshold": 0.9990652203559919,
+      "num_samples": 4914,
+      "mean_score": 0.527561366558075,
+      "std_score": 0.4781837463378906,
+      "description": "TTS (neural)"
+    },
+    "A16": {
+      "eer": 0.048674371176070555,
+      "eer_pct": 4.867437117607055,
+      "threshold": 0.0047963079532962,
+      "num_samples": 4914,
+      "mean_score": 0.0198465958237648,
+      "std_score": 0.12814971804618835,
+      "description": "TTS (waveform)"
+    },
+    "A17": {
+      "eer": 0.1985044187627723,
+      "eer_pct": 19.85044187627723,
+      "threshold": 0.9679242554851889,
+      "num_samples": 4914,
+      "mean_score": 0.31966909766197205,
+      "std_score": 0.4249485433101654,
+      "description": "VC (voice conversion)"
+    },
+    "A18": {
+      "eer": 0.07219578518014916,
+      "eer_pct": 7.219578518014916,
+      "threshold": 0.028916775914862733,
+      "num_samples": 4914,
+      "mean_score": 0.03320463374257088,
+      "std_score": 0.15516291558742523,
+      "description": "TTS (vocoder)"
+    },
+    "A19": {
+      "eer": 0.06172671651937513,
+      "eer_pct": 6.172671651937513,
+      "threshold": 0.013735879642170086,
+      "num_samples": 4914,
+      "mean_score": 0.01834540255367756,
+      "std_score": 0.1104712039232254,
+      "description": "TTS (neural)"
+    }
+  }
+}
