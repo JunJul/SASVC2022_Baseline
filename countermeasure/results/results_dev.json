@@ -1,0 +1,72 @@
+{
+  "split": "dev",
+  "checkpoint": "checkpoints/best_model.pt",
+  "timestamp": "20260413_014649",
+  "num_samples": 24844,
+  "num_bonafide": 2548,
+  "num_spoof": 22296,
+  "eer": 0.0178058844637582,
+  "eer_pct": 1.78058844637582,
+  "min_tdcf": 0.02360624344131956,
+  "threshold": 0.0003376124368455379,
+  "accuracy_at_threshold": 0.9822089840605378,
+  "mean_score_bonafide": 0.8200501799583435,
+  "mean_score_spoof": 0.001119909342378378,
+  "score_separation": 0.8189302682876587,
+  "per_attack": {
+    "A01": {
+      "eer": 0.008634222919937203,
+      "eer_pct": 0.8634222919937203,
+      "threshold": 5.9929588319032524e-05,
+      "num_samples": 3716,
+      "mean_score": 2.679255703696981e-05,
+      "std_score": 0.0007450972334481776,
+      "description": "TTS (neural waveform)"
+    },
+    "A02": {
+      "eer": 0.008634222919937151,
+      "eer_pct": 0.8634222919937151,
+      "threshold": 5.668530636229505e-05,
+      "num_samples": 3716,
+      "mean_score": 4.11850032833172e-06,
+      "std_score": 5.022088953410275e-05,
+      "description": "TTS (vocoder)"
+    },
+    "A03": {
+      "eer": 0.01373626373626394,
+      "eer_pct": 1.373626373626394,
+      "threshold": 0.0002255587943172027,
+      "num_samples": 3716,
+      "mean_score": 0.000770632061176002,
+      "std_score": 0.024077054113149643,
+      "description": "TTS (vocoder)"
+    },
+    "A04": {
+      "eer": 0.029063509149877008,
+      "eer_pct": 2.906350914987701,
+      "threshold": 0.0009867525659334703,
+      "num_samples": 3716,
+      "mean_score": 0.004790671169757843,
+      "std_score": 0.06077801436185837,
+      "description": "TTS (waveform concat)"
+    },
+    "A05": {
+      "eer": 0.018568353067010088,
+      "eer_pct": 1.8568353067010088,
+      "threshold": 0.0003620501956991511,
+      "num_samples": 3716,
+      "mean_score": 0.0008545310120098293,
+      "std_score": 0.02502387948334217,
+      "description": "VC (voice conversion)"
+    },
+    "A06": {
+      "eer": 0.0204081632654687,
+      "eer_pct": 2.04081632654687,
+      "threshold": 0.0005105420678579844,
+      "num_samples": 3716,
+      "mean_score": 0.0002727107494138181,
+      "std_score": 0.005433291662484407,
+      "description": "VC (voice conversion)"
+    }
+  }
+}
